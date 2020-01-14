@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 
 public class ChatServer {
 
+	private ChatApp chat;
 	private int port;
 
 	private ServerSocket server;
@@ -23,8 +24,9 @@ public class ChatServer {
 	
 	
 	
-	public ChatServer(int port) {
+	public ChatServer(int port, ChatApp chat) {
 		this.port = port;
+		this.chat = chat;
 	}
 
 
@@ -43,8 +45,7 @@ public class ChatServer {
 
 			while (connection.isConnected()) {
 				try {
-					JOptionPane.showMessageDialog(null, is.readObject());
-					System.out.println(is.readObject());
+					chat.addText((String) is.readObject(), "Client");
 				}catch(EOFException e) {
 					JOptionPane.showMessageDialog(null, "Connection Lost");
 					System.exit(0);
@@ -69,11 +70,11 @@ public class ChatServer {
 	}
 
 
-	public void sendMessage() {
+	public void sendMessage(String message) {
 		// TODO Auto-generated method stub
 		try {
 			if (os != null) {
-				os.writeObject(JOptionPane.showInputDialog(null, ""));
+				os.writeObject(message);
 				os.flush();
 			}
 		} catch (IOException e) {

@@ -9,6 +9,8 @@ import javax.swing.JOptionPane;
 
 public class ChatClient {
 
+	private ChatApp chat;
+	
 	private String ip;
 	private int port;
 
@@ -17,9 +19,10 @@ public class ChatClient {
 	ObjectOutputStream os;
 	ObjectInputStream is;
 
-	public ChatClient(String ip, int port) {
+	public ChatClient(String ip, int port, ChatApp chat) {
 		this.ip = ip;
 		this.port = port;
+		this.chat = chat;
 	}
 
 	public void start() {
@@ -41,8 +44,7 @@ public class ChatClient {
 		
 		while (connection.isConnected()) {
 			try {
-				JOptionPane.showMessageDialog(null, is.readObject());
-				System.out.println(is.readObject());
+				chat.addText((String) is.readObject(), "Server");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -51,11 +53,11 @@ public class ChatClient {
 		
 	}
 
-	public void sendMessage() {
+	public void sendMessage(String message) {
 		// TODO Auto-generated method stub
 		try {
 			if (os != null) {
-				os.writeObject(JOptionPane.showInputDialog(null, ""));
+				os.writeObject(message);
 				os.flush();
 			}
 		} catch (IOException e) {
