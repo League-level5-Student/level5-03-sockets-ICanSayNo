@@ -1,4 +1,4 @@
-package _00_Click_Chat.networking;
+package _02_Chat_Application;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -11,7 +11,8 @@ import java.net.UnknownHostException;
 
 import javax.swing.JOptionPane;
 
-public class Server {
+public class ChatServer {
+
 	private int port;
 
 	private ServerSocket server;
@@ -19,12 +20,17 @@ public class Server {
 
 	ObjectOutputStream os;
 	ObjectInputStream is;
-
-	public Server(int port) {
+	
+	
+	
+	public ChatServer(int port) {
 		this.port = port;
 	}
 
-	public void start(){
+
+
+	public void start() {
+		// TODO Auto-generated method stub
 		try {
 			server = new ServerSocket(port, 100);
 
@@ -49,7 +55,7 @@ public class Server {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public String getIPAddress() {
 		try {
 			return InetAddress.getLocalHost().getHostAddress();
@@ -62,21 +68,12 @@ public class Server {
 		return port;
 	}
 
-	public void sendClick() {
+
+	public void sendMessage() {
+		// TODO Auto-generated method stub
 		try {
 			if (os != null) {
-				os.writeObject("CLICK SENT FROM SERVER");
-				os.flush();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void sendMessage(String message) {
-		try {
-			if (os != null) {
-				os.writeObject(message);
+				os.writeObject(JOptionPane.showInputDialog(null, ""));
 				os.flush();
 			}
 		} catch (IOException e) {
